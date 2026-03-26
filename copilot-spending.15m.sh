@@ -47,6 +47,14 @@ load_env_var() {
     fi
 }
 
+format_quantity() {
+    local quantity="$1"
+
+    quantity="${quantity%0}"
+    quantity="${quantity%.}"
+    printf '%s' "$quantity"
+}
+
 # Script values take priority; fall back to env vars
 if [ -z "$GITHUB_TOKEN" ]; then
     GITHUB_TOKEN="$(load_env_var COPILOT_TOKEN)"
@@ -89,7 +97,7 @@ if [[ "$http_code" != "200" ]]; then
 fi
 
 total_float=$(echo "$body" | jq '[.usageItems[] | select(.product == "Copilot") | .grossQuantity] | add // 0')
-total_requests=${total_float%.*}
+total_requests=$(format_quantity "$total_float")
 
 pct=$(echo "scale=1; $total_float * 100 / $PLAN_LIMIT" | bc)
 pct_int=${pct%.*}
@@ -111,12 +119,14 @@ bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
 echo "${pct}% | color=$color sfcolor=$color templateImage=${COPILOT_ICON}"
 echo "---"
-echo "Premium Requests | size=11 color=gray"
+echo "Premium Requests (personal billing) | size=11 color=gray"
 echo "$bar ${total_requests}/${PLAN_LIMIT} | font=Menlo size=13 color=$color"
+echo "GitHub may show higher usage when Copilot is billed to an org or university. | size=11 color=gray"
 echo "---"
 days_left=$(( $(date -v1d -v+1m +%s) - $(date +%s) ))
 days_left=$((days_left / 86400))
 echo "Resets in $days_left days | size=12 color=gray"
 echo "---"
-echo "View on GitHub | href=https://github.com/settings/copilot/features"
+echo "View on GitHub Billing | href=https://github.com/settings/billing"
+echo "View Copilot Settings | href=https://github.com/settings/copilot/features"
 echo "Refresh | refresh=true"
