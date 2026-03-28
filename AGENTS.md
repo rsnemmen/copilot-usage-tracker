@@ -75,7 +75,7 @@ chmod +x copilot-spending.15m.sh
 If you need to install missing dependencies locally:
 
 ```bash
-brew install jq
+brew install jq bc
 ```
 
 SwiftBar deployment is file-based rather than build-based; users copy the script into their plugins directory.
@@ -127,9 +127,14 @@ For the equivalent of a targeted test, run one focused manual scenario at a time
 
 If you add automated tests later, document the exact per-test command here.
 
-## Important Behavior Mismatch To Notice
+## Important Behavior To Notice
 
-Some docs mention `GITHUB_TOKEN` and `GITHUB_USERNAME`, but the current script actually falls back to:
+The script prefers values set directly in the file, then falls back to:
+
+- `GITHUB_TOKEN`
+- `GITHUB_USERNAME`
+- `PLAN_LIMIT`
+- and then `COPILOT_*` environment variables:
 
 - `COPILOT_TOKEN`
 - `COPILOT_USERNAME`
