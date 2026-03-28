@@ -113,7 +113,7 @@ else
     color="#f85149"
 fi
 
-bar_len=30
+bar_len=40
 filled=$((pct_int * bar_len / 100))
 empty=$((bar_len - filled))
 bar=$(printf '▓%.0s' $(seq 1 $filled 2>/dev/null) || echo "")
@@ -122,8 +122,8 @@ bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 echo "${pct_display}% | templateImage=${COPILOT_ICON}"
 echo "---"
 echo "Premium Requests (personal billing) | size=11 color=gray"
-echo "${pct_display}% | size=11 color=gray"
 echo "${bar} | font=Menlo size=13"
+echo "${pct_display}% used | size=11 color=gray"
 echo "${total_requests}/${PLAN_LIMIT} used | size=11 color=gray"
 echo "GitHub may show higher usage when Copilot is billed to an org or university. | size=11 color=gray"
 echo "---"
