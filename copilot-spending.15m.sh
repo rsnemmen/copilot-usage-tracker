@@ -117,10 +117,10 @@ empty=$((bar_len - filled))
 bar=$(printf '▓%.0s' $(seq 1 $filled 2>/dev/null) || echo "")
 bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
-echo "${pct}% | color=$color sfcolor=$color templateImage=${COPILOT_ICON}"
+echo "${pct}% | templateImage=${COPILOT_ICON}"
 echo "---"
 echo "Premium Requests (personal billing) | size=11 color=gray"
-echo "$bar ${total_requests}/${PLAN_LIMIT} | font=Menlo size=13 color=$color"
+echo "$bar ${total_requests}/${PLAN_LIMIT} | font=Menlo size=13"
 echo "GitHub may show higher usage when Copilot is billed to an org or university. | size=11 color=gray"
 echo "---"
 days_left=$(( $(date -v1d -v+1m +%s) - $(date +%s) ))
