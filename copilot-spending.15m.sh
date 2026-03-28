@@ -101,7 +101,9 @@ total_requests=$(format_quantity "$total_float")
 
 pct=$(echo "scale=1; $total_float * 100 / $PLAN_LIMIT" | bc)
 pct_int=${pct%.*}
+pct_display=$(printf '%.0f' "$pct")
 [[ $pct_int -gt 100 ]] && pct="100.0"
+(( pct_display > 100 )) && pct_display=100
 
 if [[ $pct_int -lt 50 ]]; then
     color="#3fb950"
@@ -117,7 +119,7 @@ empty=$((bar_len - filled))
 bar=$(printf '▓%.0s' $(seq 1 $filled 2>/dev/null) || echo "")
 bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
-echo "${pct}% | templateImage=${COPILOT_ICON}"
+echo "${pct_display}% | templateImage=${COPILOT_ICON}"
 echo "---"
 echo "Premium Requests (personal billing) | size=11 color=gray"
 echo "$bar ${total_requests}/${PLAN_LIMIT} | font=Menlo size=13"
