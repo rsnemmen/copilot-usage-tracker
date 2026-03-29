@@ -97,7 +97,7 @@ if [[ "$http_code" != "200" ]]; then
 fi
 
 total_float=$(echo "$body" | jq '[.usageItems[] | select(.product == "Copilot") | .grossQuantity] | add // 0')
-total_requests=$(format_quantity "$total_float")
+total_requests=$(printf '%.0f' "$total_float")
 
 pct=$(echo "scale=1; $total_float * 100 / $PLAN_LIMIT" | bc)
 pct_int=${pct%.*}
@@ -121,15 +121,15 @@ bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
 echo "${pct_display}% | templateImage=${COPILOT_ICON}"
 echo "---"
-echo "Premium Requests (personal billing) | size=11 color=gray"
-echo "${bar} | font=Menlo size=13"
-echo "${pct_display}% used | size=11 color=gray"
-echo "${total_requests}/${PLAN_LIMIT} used | size=11 color=gray"
-echo "GitHub may show higher usage when Copilot is billed to an org or university. | size=11 color=gray"
+echo "Premium Requests (personal billing) | color=gray"
+echo "${bar} | font=Menlo"
+echo "${pct_display}% used | color=gray"
+echo "${total_requests}/${PLAN_LIMIT} used | color=gray"
+echo "GitHub may show higher usage when Copilot is billed to an org or university. | color=gray"
 echo "---"
 days_left=$(( $(date -v1d -v+1m +%s) - $(date +%s) ))
 days_left=$((days_left / 86400))
-echo "Resets in $days_left days | size=12 color=gray"
+echo "Resets in $days_left days | color=gray"
 echo "---"
 echo "View on GitHub Billing | href=https://github.com/settings/billing"
 echo "View Copilot Settings | href=https://github.com/settings/copilot/features"
