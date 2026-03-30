@@ -121,11 +121,10 @@ bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
 echo "${pct_display}% | templateImage=${COPILOT_ICON}"
 echo "---"
-echo "Premium Requests (personal billing) | color=gray"
+echo "Premium Requests | color=gray"
 echo "${bar} | font=Menlo"
 echo "${pct_display}% used | color=gray"
 echo "${total_requests}/${PLAN_LIMIT} used | color=gray"
-echo "GitHub may show higher usage when Copilot is billed to an org or university. | color=gray"
 echo "---"
 days_left=$(( $(date -v1d -v+1m +%s) - $(date +%s) ))
 days_left=$((days_left / 86400))
