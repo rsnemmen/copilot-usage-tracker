@@ -105,6 +105,21 @@ pct_display=$(printf '%.0f' "$pct")
 [[ $pct_int -gt 100 ]] && pct="100.0"
 (( pct_display > 100 )) && pct_display=100
 
+now_s=$(date +%s)
+month_start_s=$(date -v1d -v0H -v0M -v0S +%s)
+next_month_start_s=$(date -v1d -v+1m -v0H -v0M -v0S +%s)
+month_duration_s=$((next_month_start_s - month_start_s))
+elapsed_month_s=$((now_s - month_start_s))
+expected_pct=$(echo "scale=1; $elapsed_month_s * 100 / $month_duration_s" | bc)
+
+if [ "$(echo "$expected_pct < 0" | bc)" -eq 1 ]; then
+    expected_pct="0"
+elif [ "$(echo "$expected_pct > 100" | bc)" -eq 1 ]; then
+    expected_pct="100.0"
+fi
+
+expected_pct_display=$(format_quantity "$expected_pct")
+
 if [[ $pct_int -lt 50 ]]; then
     color="#3fb950"
 elif [[ $pct_int -lt 80 ]]; then
@@ -126,9 +141,10 @@ echo "${bar} | font=Menlo"
 echo "${pct_display}% used | color=gray"
 echo "${total_requests}/${PLAN_LIMIT} used | color=gray"
 echo "---"
-days_left=$(( $(date -v1d -v+1m +%s) - $(date +%s) ))
+days_left=$(( $(date -v1d -v+1m +%s) - now_s ))
 days_left=$((days_left / 86400))
 echo "Resets in $days_left days | color=gray"
+echo "Expected: ${expected_pct_display}% used | color=gray"
 echo "---"
 echo "View on GitHub Billing | href=https://github.com/settings/billing"
 echo "View Copilot Settings | href=https://github.com/settings/copilot/features"

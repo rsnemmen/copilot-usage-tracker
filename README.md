@@ -6,7 +6,7 @@ A SwiftBar/xbar menu bar widget that shows your GitHub Copilot personal premium 
 
 - Shows usage percentage in the menu bar with a Copilot icon
 - Displays a wide progress bar in the dropdown
-- Shows used requests, plan limit, and days until reset
+- Shows used requests, plan limit, days until reset, and the expected used percentage for the current point in the month
 - Links to GitHub Billing and Copilot settings
 - Falls back to `COPILOT_*` environment variables when credentials are not hardcoded
 
