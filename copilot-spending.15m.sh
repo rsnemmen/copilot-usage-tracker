@@ -2,7 +2,7 @@
 
 # <xbar.title>GitHub Copilot Usage</xbar.title>
 # <xbar.version>v3.0</xbar.version>
-# <xbar.desc>Shows GitHub Copilot premium request usage percentage</xbar.desc>
+# <xbar.desc>Shows GitHub Copilot premium request percentage remaining</xbar.desc>
 # <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
 
 # ========== CONFIGURATION ==========
@@ -104,6 +104,7 @@ pct_int=${pct%.*}
 pct_display=$(printf '%.0f' "$pct")
 [[ $pct_int -gt 100 ]] && pct="100.0"
 (( pct_display > 100 )) && pct_display=100
+remaining_pct_display=$((100 - pct_display))
 
 now_s=$(date +%s)
 month_start_s=$(date -v1d -v0H -v0M -v0S +%s)
@@ -134,7 +135,7 @@ empty=$((bar_len - filled))
 bar=$(printf '▓%.0s' $(seq 1 $filled 2>/dev/null) || echo "")
 bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
-echo "${pct_display}% | templateImage=${COPILOT_ICON}"
+echo "${remaining_pct_display}% left | templateImage=${COPILOT_ICON}"
 echo "---"
 echo "Premium Requests | color=gray"
 echo "${bar} | font=Menlo"
