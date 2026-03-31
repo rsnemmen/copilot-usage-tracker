@@ -118,7 +118,7 @@ elif [ "$(echo "$expected_pct > 100" | bc)" -eq 1 ]; then
     expected_pct="100.0"
 fi
 
-expected_pct_display=$(format_quantity "$expected_pct")
+expected_pct_display=$(printf '%.0f' "$expected_pct")
 
 if [[ $pct_int -lt 50 ]]; then
     color="#3fb950"
@@ -141,9 +141,15 @@ echo "${bar} | font=Menlo"
 echo "${pct_display}% used | color=gray"
 echo "${total_requests}/${PLAN_LIMIT} used | color=gray"
 echo "---"
-days_left=$(( $(date -v1d -v+1m +%s) - now_s ))
-days_left=$((days_left / 86400))
-echo "Resets in $days_left days | color=gray"
+seconds_until_reset=$((next_month_start_s - now_s))
+if (( seconds_until_reset < 86400 )); then
+    hours_left=$(( (seconds_until_reset + 3599) / 3600 ))
+    [[ $hours_left -eq 1 ]] && reset_label="Resets in 1 hour" || reset_label="Resets in ${hours_left} hours"
+else
+    days_left=$((seconds_until_reset / 86400))
+    [[ $days_left -eq 1 ]] && reset_label="Resets in 1 day" || reset_label="Resets in ${days_left} days"
+fi
+echo "${reset_label} | color=gray"
 echo "Expected: ${expected_pct_display}% used | color=gray"
 echo "---"
 echo "View on GitHub Billing | href=https://github.com/settings/billing"
