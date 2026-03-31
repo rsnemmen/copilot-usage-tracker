@@ -135,7 +135,7 @@ empty=$((bar_len - filled))
 bar=$(printf '▓%.0s' $(seq 1 $filled 2>/dev/null) || echo "")
 bar+=$(printf '░%.0s' $(seq 1 $empty 2>/dev/null) || echo "")
 
-echo "${remaining_pct_display}% left | templateImage=${COPILOT_ICON}"
+echo "${remaining_pct_display}% | templateImage=${COPILOT_ICON}"
 echo "---"
 echo "Premium Requests | color=gray"
 echo "${bar} | font=Menlo"
