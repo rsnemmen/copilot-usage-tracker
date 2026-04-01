@@ -76,8 +76,8 @@ if [ -z "$GITHUB_TOKEN" ] || [ -z "$GITHUB_USERNAME" ]; then
     exit 0
 fi
 
-current_year=$(date +%Y)
-current_month=$(date +%-m)
+current_year=$(date -u +%Y)
+current_month=$(date -u +%-m)
 
 response=$(curl -s -w "\n%{http_code}" \
     -H "Accept: application/vnd.github+json" \
@@ -106,9 +106,9 @@ pct_display=$(printf '%.0f' "$pct")
 (( pct_display > 100 )) && pct_display=100
 remaining_pct_display=$((100 - pct_display))
 
-now_s=$(date +%s)
-month_start_s=$(date -v1d -v0H -v0M -v0S +%s)
-next_month_start_s=$(date -v1d -v+1m -v0H -v0M -v0S +%s)
+now_s=$(date -u +%s)
+month_start_s=$(date -u -v1d -v0H -v0M -v0S +%s)
+next_month_start_s=$(date -u -v1d -v+1m -v0H -v0M -v0S +%s)
 month_duration_s=$((next_month_start_s - month_start_s))
 elapsed_month_s=$((now_s - month_start_s))
 expected_pct=$(echo "scale=1; $elapsed_month_s * 100 / $month_duration_s" | bc)
