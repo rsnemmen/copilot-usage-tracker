@@ -88,6 +88,13 @@ response=$(curl -s -w "\n%{http_code}" \
 http_code=$(echo "$response" | tail -1)
 body=$(echo "$response" | sed '$d')
 
+if [[ -z "$http_code" ]] || [[ "$http_code" == "000" ]]; then
+    echo "? | templateImage=${COPILOT_ICON}"
+    echo "---"
+    echo "No internet connection"
+    exit 0
+fi
+
 if [[ "$http_code" != "200" ]]; then
     echo ":exclamationmark.triangle.fill: Err | sfcolor=red"
     echo "---"
