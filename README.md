@@ -109,3 +109,11 @@ The filename `copilot-spending.15m.sh` sets refresh to every 15 minutes. Rename 
 ## License
 
 MIT
+
+## More SwiftBar plugins by the author
+
+Small, glanceable menu bar utilities that stay out of the way until you need them:
+
+- **[claude_code](../claude_code/)** — Claude Code usage limits (5h, 7d  windows) at a glance.
+- **[poe_balance](../poe_balance/)** — Poe API balance, percentage, and spending pace vs. the billing cycle.
+- **[weather](../weather/)** — Current conditions, temperature, humidity, and wind — no API key required.
